@@ -43,3 +43,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: ${{ github.event_name == 'push' }}
           tags: splitio-docker.jfrog.io/${{ github.event.repository.name }}:${{ github.sha }},splitio-docker.jfrog.io/${{ github.event.repository.name }}:latest
+
+      - name: Save job result
+        if: ${{ github.event_name == 'push' }}
+        run: echo "Container tag $GITHUB_SHA" >> "$GITHUB_STEP_SUMMARY"
