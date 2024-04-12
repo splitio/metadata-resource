@@ -6,9 +6,6 @@ to files to make annotations easier. One such use-case may be to add build links
 
 As Concourse [documentation](http://concourse.ci/implementing-resources.html#resource-metadata) states, **avoid using this for versioning**. Use the [semver resource](https://github.com/concourse/semver-resource) instead.
 
-## Behavior
-:warning: Since 2.0.0 a **put** step has to used instead of a get to fix [this issue](https://github.com/olhtbr/metadata-resource/issues/1). If you want the old behaviour, use version 1.0.0 of this resource. :warning:
-
 ### `check`: Not used
 Always emits an empty version.
 
@@ -24,10 +21,12 @@ The following example shows how a GitHub release can be created with a link poin
 # Register the metadata resource type
 resource_types:
   - name: metadata
-    type: docker-image
+    type: registry-image
     source:
-      repository: olhtbr/metadata-resource
-      tag: 2.0.1
+      repository: splitio-docker.jfrog.io/metadata-resource
+      username: ((concourse-docker.username))
+      password: ((concourse-docker.password))
+      tag: $GIT_SHA
 
 resources:
   # The resource does not need any configuration
